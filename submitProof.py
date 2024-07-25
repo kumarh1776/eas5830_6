@@ -49,7 +49,7 @@ def generate_primes(num_primes):
 
     #TODO YOUR CODE HERE
     num = 2
-    while len(primes) < num_primes:
+    while len(primes_list) < num_primes:
         is_prime = True
         for prime in primes_list:
             if prime * prime > num:
