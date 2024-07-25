@@ -84,7 +84,7 @@ def build_merkle(leaves):
     """
 
     #TODO YOUR CODE HERE
-    tree = [leaves]
+   tree = [leaves]
     while len(tree[-1]) > 1:
         layer = []
         for i in range(0, len(tree[-1]), 2):
@@ -159,7 +159,7 @@ def send_signed_msg(proof, random_leaf):
 
     tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
-    return tx_hash.hex()
+    return tx_hash
 
 
 # Helper functions that do not need to be modified
