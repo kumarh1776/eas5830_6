@@ -38,6 +38,7 @@ def merkle_assignment():
         # TODO, when you are ready to attempt to claim a prime (and pay gas fees),
         #  complete this method and run your code with the following line un-commented
         tx_hash = send_signed_msg(proof, leaves[random_leaf_index])
+        print(f"Transaction hash: {tx_hash}")
 
 
 def generate_primes(num_primes):
@@ -90,7 +91,7 @@ def build_merkle(leaves):
             if i + 1 < len(tree[-1]):
                 layer.append(hash_pair(tree[-1][i], tree[-1][i + 1]))
             else:
-                layer.append(tree[-1][i])
+                layer.append(tree[-1][i]) 
         tree.append(layer)
     return tree
 
@@ -157,7 +158,7 @@ def send_signed_msg(proof, random_leaf):
 
     tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
-    return tx_hash
+    return tx_hash.hex()
 
 
 # Helper functions that do not need to be modified
