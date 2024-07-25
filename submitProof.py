@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 from web3 import Web3
 from web3.middleware import geth_poa_middleware  # Necessary for POA chains
-from sympy import primerange
 
 
 def merkle_assignment():
@@ -49,7 +48,18 @@ def generate_primes(num_primes):
     primes_list = []
 
     #TODO YOUR CODE HERE
-    primes_list = list(primerange(1, 84018))[:num_primes]
+    num = 2
+    while len(primes) < num_primes:
+        is_prime = True
+        for prime in primes_list:
+            if prime * prime > num:
+                break
+            if num % prime == 0:
+                is_prime = False
+                break
+        if is_prime:
+            primes_list.append(num)
+        num += 1
     return primes_list
 
 
