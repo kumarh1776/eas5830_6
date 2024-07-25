@@ -150,13 +150,13 @@ def send_signed_msg(proof, random_leaf):
     # TODO YOUR CODE HERE
     tx = contract.functions.submit(proof, random_leaf).build_transaction({
         'from': acct.address,
-        'nonce': w3.eth.getTransactionCount(acct.address),
+        'nonce': w3.eth.get_transaction_count(acct.address),
         'gas': 2000000,
         'gasPrice': w3.toWei('20', 'gwei')
     })
     signed_tx = w3.eth.account.sign_transaction(tx, acct.key)
 
-    tx_hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
     return tx_hash.hex()
 
