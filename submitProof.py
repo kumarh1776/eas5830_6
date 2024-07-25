@@ -91,7 +91,7 @@ def build_merkle(leaves):
             if i + 1 < len(tree[-1]):
                 layer.append(hash_pair(tree[-1][i], tree[-1][i + 1]))
             else:
-                layer.append(tree[-1][i]) 
+                layer.append(tree[-1][i])
         tree.append(layer)
     return tree
 
@@ -111,6 +111,7 @@ def prove_merkle(merkle_tree, random_indx):
         if pair_index < len(layer):
             merkle_proof.append(layer[pair_index])
         index //= 2
+    merkle_proof.insert(0, merkle_tree[0][random_indx])
     return merkle_proof
 
 
