@@ -77,13 +77,14 @@ def build_merkle(leaves):
     """
     tree = [leaves]
     while len(tree[-1]) > 1:
-        layer = []
-        for i in range(0, len(tree[-1]), 2):
-            if i + 1 < len(tree[-1]):
-                layer.append(hash_pair(tree[-1][i], tree[-1][i + 1]))
+        current_layer = tree[-1]
+        next_layer = []
+        for i in range(0, len(current_layer), 2):
+            if i + 1 < len(current_layer):
+                next_layer.append(hash_pair(current_layer[i], current_layer[i + 1]))
             else:
-                layer.append(tree[-1][i])  # Duplicate the last element if it's an odd number of elements
-        tree.append(layer)
+                next_layer.append(hash_pair(current_layer[i], current_layer[i]))
+        tree.append(next_layer)
     return tree
 
 
@@ -101,7 +102,7 @@ def prove_merkle(merkle_tree, random_indx):
         if pair_index < len(layer):
             proof.append(layer[pair_index])
         index //= 2
-    proof.insert(0, merkle_tree[0][random_indx])  # Include the target leaf
+    proof.insert(0, merkle_tree[0][random_indx]) 
     return proof
 
 
@@ -133,7 +134,6 @@ def send_signed_msg(proof, random_leaf):
     w3 = connect_to(chain)
     contract = w3.eth.contract(address=address, abi=abi)
 
-    # Build the transaction
     tx = contract.functions.submit(proof, random_leaf).build_transaction({
         'from': acct.address,
         'nonce': w3.eth.get_transaction_count(acct.address),
@@ -141,10 +141,8 @@ def send_signed_msg(proof, random_leaf):
         'gasPrice': w3.to_wei('20', 'gwei')
     })
 
-    # Sign the transaction
     signed_tx = w3.eth.account.sign_transaction(tx, acct.key)
 
-    # Send the transaction
     tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
     return tx_hash.hex()
